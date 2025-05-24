@@ -2,7 +2,7 @@ package com.example.price_comparator.dto;
 
 import java.time.LocalDate;
 
-public record ActiveDiscountDTO(
+public record DiscountDTO(
         String productId,
         String productName,
         String storeName,
@@ -10,5 +10,6 @@ public record ActiveDiscountDTO(
         String category,
         double percentageOfDiscount,
         LocalDate fromDate,
-        LocalDate toDate
+        LocalDate toDate,
+        LocalDate registeredAt
 ) {}

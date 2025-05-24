@@ -1,6 +1,6 @@
 package com.example.price_comparator.service;
 
-import com.example.price_comparator.dto.ActiveDiscountDTO;
+import com.example.price_comparator.dto.DiscountDTO;
 import com.example.price_comparator.repository.DiscountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ public class DiscountService {
 
     private final DiscountRepository discountRepository;
 
-    public List<ActiveDiscountDTO> getBestDiscountsToday(LocalDate date) {
+    public List<DiscountDTO> getBestDiscountsToday(LocalDate date) {
 
         return discountRepository.findActiveDiscountsOrderByPercentageDesc(date)
                 .stream()
-                .map(d -> new ActiveDiscountDTO(
+                .map(d -> new DiscountDTO(
                         d.getId().getProductId(),
                         d.getProductName(),
                         d.getId().getStoreName(),
@@ -26,7 +26,25 @@ public class DiscountService {
                         d.getProductCategory(),
                         d.getPercentageOfDiscount(),
                         d.getId().getFromDate(),
-                        d.getId().getToDate()
+                        d.getId().getToDate(),
+                        d.getRegisteredAt()
+                )).toList();
+    }
+
+    public List<DiscountDTO> getNewDiscounts() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        return discountRepository.findDiscountRegisteredAfter(yesterday)
+                .stream()
+                .map(d -> new DiscountDTO(
+                        d.getId().getProductId(),
+                        d.getProductName(),
+                        d.getId().getStoreName(),
+                        d.getBrand(),
+                        d.getProductCategory(),
+                        d.getPercentageOfDiscount(),
+                        d.getId().getFromDate(),
+                        d.getId().getToDate(),
+                        d.getRegisteredAt()
                 )).toList();
     }
 
