@@ -27,4 +27,22 @@ public class Price {
     private double price;
     private String currency;
 
+    // methode to normalize the units
+    public double getPackageQuantityInBaseUnit() {
+
+        if (packageUnit == null) return packageQuantity;
+
+        return switch (packageUnit.toLowerCase()) {
+            case "g", "ml" -> packageQuantity / 1000.0; // g -> kg & ml -> l
+            default -> packageQuantity;
+        };
+
+    }
+
+    public double getValuePerUnit() {
+        double baseQuantity = getPackageQuantityInBaseUnit();
+        if(baseQuantity <= 0)
+            return 0;
+        return price/baseQuantity;
+    }
 }
