@@ -21,10 +21,10 @@ public class PriceController {
     @GetMapping("/substitutes")
     public ResponseEntity<List<PriceDTO>> getProductSubstitutes(@RequestParam String productName) {
 
-        List<PriceDTO> subtitutes = priceService.findProductSubstitutes(productName);
-        if (subtitutes.isEmpty())
+        List<PriceDTO> substitutes = priceService.findProductSubstitutes(productName);
+        if (substitutes.isEmpty())
             return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(subtitutes);
+        return ResponseEntity.ok(substitutes);
 
     }
 }
